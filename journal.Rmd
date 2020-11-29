@@ -59,7 +59,7 @@ library(scales)
 You can add more headers by adding more hashtags. These won't be put into the table of contents
 
 ## Sales by year and location Image
-```{r plot1, fig.width=10, fig.height=7, echo=FALSE}
+```{r plot2, fig.width=10, fig.height=7, echo=FALSE}
 library(ggplot2)
 library(scales)
   sales_by_year_loc_tbl %>%
