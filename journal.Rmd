@@ -31,36 +31,39 @@ Last compiled: `r Sys.Date()`
 Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
 
 ## Sales by location Image
-```{r plot, fig.width=10, fig.height=7}
-sales_by_location_tbl %>%
-   ggplot(aes(x = state, y = sales)) +
-  geom_col(fill = "#2DC6D6") + # Use geom_col for a bar plot
+```{r plot1, fig.width=10, fig.height=7}
+library(ggplot2)
+library(scales)
+  sales_by_location_tbl %>%
+    ggplot(aes(x = state, y = sales)) +
+    geom_col(fill = "#2DC6D6") + # Use geom_col for a bar plot
   geom_label(aes(label = sales_text)) + # Adding labels to the bars
   geom_smooth(method = "lm", se = FALSE) + # Adding a trendline
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-scale_y_continuous(labels = scales::dollar_format(big.mark = ".", 
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    scale_y_continuous(labels = scales::dollar_format(big.mark = ".", 
                                                     decimal.mark = ",", 
                                                     prefix = "", 
                                                     suffix = " €")) +
-  labs(
+     labs(
     title    = "Revenue by location",
     subtitle = "Upward Trend",
     x = "", # Override defaults for x and y
     y = "Revenue"
   )
-
 ```
 
 
 You can add more headers by adding more hashtags. These won't be put into the table of contents
 
-## Sales by year and loocation Image
-```{r plot, fig.width=10, fig.height=7}
-sales_by_year_loc_tbl %>%
-  ggplot(aes(x = year, y = sales, fill = state)) +
-  geom_col() + # Run up to here to get a stacked bar plot
-  facet_wrap(~ state) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+## Sales by year and location Image
+```{r plot2, fig.width=10, fig.height=7}
+library(ggplot2)
+library(scales)
+  sales_by_year_loc_tbl %>%
+    ggplot(aes(x = year, y = sales, fill = state)) +
+    geom_col() + # Run up to here to get a stacked bar plot
+    facet_wrap(~ state) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_y_continuous(labels = scales::dollar_format(big.mark = ".", 
                                                     decimal.mark = ",", 
                                                     prefix = "", 
@@ -70,7 +73,6 @@ sales_by_year_loc_tbl %>%
     subtitle = "Each state has an upward trend",
     fill = "Location" # Changes the legend name
   )
-
 ```
 
 
