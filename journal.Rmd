@@ -48,10 +48,6 @@ orderlines_tbl <- read_excel("00_data/01_bike_sales/01_raw_data/orderlines.xlsx"
 bikeshops_tbl  <- read_excel("00_data/01_bike_sales/01_raw_data/bikeshops.xlsx")
 ```
 ```{r include=FALSE}
-# by automatically detecting a common column, if any ...
-left_join(orderlines_tbl, bikes_tbl)
-## Error: `by` must be supplied when `x` and `y` have no common variables.
-
 # If the data has no common column name, you can provide each column name in the "by" argument. For example, by = c("a" = "b") will match x.a to y.b. The order of the columns has to match the order of the tibbles).
 left_join(orderlines_tbl, bikes_tbl, by = c("product.id" = "bike.id"))
 ## # A tibble: 15,644 x 15
