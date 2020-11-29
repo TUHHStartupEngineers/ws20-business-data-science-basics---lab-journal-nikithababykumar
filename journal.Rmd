@@ -204,7 +204,7 @@ You can add more headers by adding more hashtags. These won't be put into the ta
 ## Sales by year and location Image
 
 
-```{r eval=FALSE}}
+```{r eval=FALSE}
 # 6.2 Sales by Year and location ----
 # Step 1 - Manipulate
 sales_by_year_loc_tbl <- bike_orderlines_wrangled_tbl %>%
