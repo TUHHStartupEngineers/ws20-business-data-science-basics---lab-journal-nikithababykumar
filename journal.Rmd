@@ -38,7 +38,7 @@ library(tidyverse)
 library(readxl)
 ```
 
-```{r eval=FALSE}
+```{r include=FALSE}
 # 2.0 Importing Files ----
 # A good convention is to use the file name and suffix it with tbl for the data structure tibble
 bikes_tbl      <- read_excel(path = "00_data/01_bike_sales/01_raw_data/bikes.xlsx")
@@ -47,7 +47,7 @@ orderlines_tbl <- read_excel("00_data/01_bike_sales/01_raw_data/orderlines.xlsx"
 # Not necessary for this analysis, but for the sake of completeness
 bikeshops_tbl  <- read_excel("00_data/01_bike_sales/01_raw_data/bikeshops.xlsx")
 ```
-```{r eval=FALSE}
+```{r include=FALSE}
 # by automatically detecting a common column, if any ...
 left_join(orderlines_tbl, bikes_tbl)
 ## Error: `by` must be supplied when `x` and `y` have no common variables.
@@ -102,7 +102,7 @@ bike_orderlines_joined_tbl %>% glimpse()
 ## $ lng            <dbl> 10.015340, 10.015340, 8.826754, 8.8…
 ```
 
-```{r eval=FALSE}
+```{r include=FALSE}
 bike_orderlines_joined_tbl %>% 
   select(category) %>%
   filter(str_detect(category, "^Mountain")) %>% 
@@ -110,7 +110,7 @@ bike_orderlines_joined_tbl %>%
 ```
 
 
-```{r eval=FALSE}
+```{r include=FALSE}
 # 5.0 Wrangling Data ----
 # All actions are chained with the pipe already. You can perform each step separately and use glimpse() or View() to validate your code. Store the result in a variable at the end of the steps.
 bike_orderlines_wrangled_tbl <- bike_orderlines_joined_tbl %>%
@@ -147,7 +147,7 @@ bike_orderlines_wrangled_tbl <- bike_orderlines_joined_tbl %>%
   set_names(names(.) %>% str_replace_all("\\.", "_"))
 ```
 
-```{r eval=FALSE}
+```{r include=FALSE}
 # 6.0 Business Insights ----
 # 6.1 Sales by location ----
 
@@ -204,7 +204,7 @@ You can add more headers by adding more hashtags. These won't be put into the ta
 ## Sales by year and location Image
 
 
-```{r eval=FALSE}
+```{r include=FALSE}
 # 6.2 Sales by Year and location ----
 # Step 1 - Manipulate
 sales_by_year_loc_tbl <- bike_orderlines_wrangled_tbl %>%
