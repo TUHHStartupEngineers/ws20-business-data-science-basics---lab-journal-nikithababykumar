@@ -37,8 +37,8 @@ Notice that whatever you define as a top level header, automatically gets put in
 ```{r plot1, fig.width=10, fig.height=7, echo=FALSE}
 library(ggplot2)
 library(scales)
-  sales_by_location_tbl %>%
-    ggplot(aes(x = state, y = sales)) +
+  #sales_by_location_tbl %>%
+    ggplot(sales_by_location_tbl, aes(x = state, y = sales)) +
     geom_col(fill = "#2DC6D6") + # Use geom_col for a bar plot
   geom_label(aes(label = sales_text)) + # Adding labels to the bars
   geom_smooth(method = "lm", se = FALSE) + # Adding a trendline
@@ -62,8 +62,8 @@ You can add more headers by adding more hashtags. These won't be put into the ta
 ```{r plot2, fig.width=10, fig.height=7, echo=FALSE}
 library(ggplot2)
 library(scales)
-  sales_by_year_loc_tbl %>%
-    ggplot(aes(x = year, y = sales, fill = state)) +
+  #sales_by_year_loc_tbl %>%
+    ggplot(sales_by_year_loc_tbl, aes(x = year, y = sales, fill = state)) +
     geom_col() + # Run up to here to get a stacked bar plot
     facet_wrap(~ state) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
