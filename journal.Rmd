@@ -32,6 +32,34 @@ Last compiled: `r Sys.Date()`
 Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
 
 ## Sales by location Image
+```{r echo = FALSE}
+# 6.0 Business Insights ----
+# 6.1 Sales by location ----
+
+library(lubridate)
+# Step 1 - Manipulate
+sales_by_location_tbl <- bike_orderlines_wrangled_tbl %>%
+  
+  # Select columns
+  select(state, total_price) %>%
+  
+  # Add year column
+  #mutate(year = year(order_date)) %>%
+  
+  # Grouping by state and summarizing sales
+  group_by(state) %>% 
+  summarize(sales = sum(total_price)) %>%
+  
+  # Optional: Add a column that turns the numbers into a currency format 
+  # (makes it in the plot optically more appealing)
+  # mutate(sales_text = scales::dollar(sales)) <- Works for dollar values
+  mutate(sales_text = scales::dollar(sales, big.mark = ".", 
+                                     decimal.mark = ",", 
+                                     prefix = "", 
+                                     suffix = " €"))
+
+sales_by_location_tbl
+```
 
 
 ```{r plot1, fig.width=10, fig.height=7, echo=FALSE}
@@ -59,11 +87,37 @@ library(scales)
 You can add more headers by adding more hashtags. These won't be put into the table of contents
 
 ## Sales by year and location Image
+
+
+```{r echo = FALSE}
+# 6.2 Sales by Year and location ----
+# Step 1 - Manipulate
+sales_by_year_loc_tbl <- bike_orderlines_wrangled_tbl %>%
+  
+  # Select columns and add a year
+  select(order_date, total_price, state) %>%
+  mutate(year = year(order_date)) %>%
+  
+  # Group by and summarize year and main catgegory
+  group_by(year, state) %>%
+  summarise(sales = sum(total_price)) %>%
+  ungroup() %>%
+  
+  # Format $ Text
+  mutate(sales_text = scales::dollar(sales, big.mark = ".", 
+                                     decimal.mark = ",", 
+                                     prefix = "", 
+                                     suffix = " €"))
+
+sales_by_year_loc_tbl 
+``` 
+
+
 ```{r plot2, fig.width=10, fig.height=7, echo=FALSE}
 library(ggplot2)
 library(scales)
   #sales_by_year_loc_tbl %>%
-    ggplot(sales_by_year_loc_tbl, aes(x = year, y = sales, fill = state)) +
+    ggplot( aes(x = year, y = sales, fill = state)) +
     geom_col() + # Run up to here to get a stacked bar plot
     facet_wrap(~ state) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
