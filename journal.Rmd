@@ -1,7 +1,7 @@
 ---
 title: "Journal (reproducible report)"
 author: "Nikitha Baby Kumar"
-date: "2020-11-05"
+date: "`r Sys.Date()"
 output:
   html_document:
     toc: true
@@ -13,24 +13,48 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	cache = TRUE
+)
 ```
 
 **IMPORTANT:** You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.
 
 This is an `.Rmd` file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a \# in front of your text, it will create a top level-header.
 
-# My first post
+# challenge 1 Sales Data analysis
 
 Last compiled: `r Sys.Date()`
 
 Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
 
-## Second level header
+## Sales by location Image
+```{r plot, fig.width=10, fig.height=7}
+sales_by_location_tbl %>%
+   ggplot(aes(x = state, y = sales)) +
+  geom_col(fill = "#2DC6D6") + # Use geom_col for a bar plot
+  geom_label(aes(label = sales_text)) + # Adding labels to the bars
+  geom_smooth(method = "lm", se = FALSE) + # Adding a trendline
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+scale_y_continuous(labels = scales::dollar_format(big.mark = ".", 
+                                                    decimal.mark = ",", 
+                                                    prefix = "", 
+                                                    suffix = " €")) +
+  labs(
+    title    = "Revenue by location",
+    subtitle = "Upward Trend",
+    x = "", # Override defaults for x and y
+    y = "Revenue"
+  )
+
+```
+
 
 You can add more headers by adding more hashtags. These won't be put into the table of contents
 
-### third level header
+## Sales by year and loocation Image
 
 Here's an even lower level header
 
@@ -50,5 +74,6 @@ So, let's say you are learning how to make a histogram in R. For example, maybe 
 samples <- rnorm(100, mean=0, sd=1)
 hist(samples)
 ```
+
 
 When you knit this R Markdown document, you will see that the histogram is printed to the page, along with the R code. This document can be set up to hide the R code in the webpage, just delete the comment (hashtag) from the cold folding option in the yaml header up top. For purposes of letting yourself see the code, and me see the code, best to keep it the way that it is. You'll learn that all of these things and more can be customized in each R code block.
