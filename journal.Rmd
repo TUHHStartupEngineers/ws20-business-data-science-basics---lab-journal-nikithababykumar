@@ -16,7 +16,8 @@ output:
 knitr::opts_chunk$set(
 	message = FALSE,
 	warning = FALSE,
-	cache = TRUE
+	cache = TRUE,
+	echo = FALSE
 )
 ```
 
@@ -31,6 +32,8 @@ Last compiled: `r Sys.Date()`
 Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
 
 ## Sales by location Image
+
+
 ```{r plot1, fig.width=10, fig.height=7}
 library(ggplot2)
 library(scales)
