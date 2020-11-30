@@ -265,7 +265,7 @@ as_tibble(ForecastData)
 ## Scapping
 
 
-```{r echo=FALSE}
+```{r eval=FALSE}
 # 1.1 COLLECT PRODUCT FAMILIES ----
 
 url_home          <- "https://www.canyon.com/en-de"
