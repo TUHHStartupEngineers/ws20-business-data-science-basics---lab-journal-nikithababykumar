@@ -413,7 +413,7 @@ div.tocify {
 <p>This is an <code>.Rmd</code> file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a # in front of your text, it will create a top level-header.</p>
 <div id="challenge-1-sales-data-analysis" class="section level1">
 <h1><span class="header-section-number">1</span> challenge 1 Sales Data analysis</h1>
-<p>Last compiled: 2020-11-29</p>
+<p>Last compiled: 2020-11-30</p>
 <p>Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left.</p>
 <div id="sales-by-location-image" class="section level2">
 <h2><span class="header-section-number">1.1</span> Sales by location Image</h2>
@@ -426,16 +426,32 @@ div.tocify {
 <p>Here’s an even lower level header</p>
 </div>
 </div>
-<div id="my-second-post-note-the-order" class="section level1">
-<h1><span class="header-section-number">2</span> My second post (note the order)</h1>
-<p>Last compiled: 2020-11-29</p>
+<div id="challenge-2" class="section level1">
+<h1><span class="header-section-number">2</span> Challenge 2</h1>
+<p>Last compiled: 2020-11-30</p>
 <p>I’m writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom</p>
 </div>
-<div id="adding-r-stuff" class="section level1">
-<h1><span class="header-section-number">3</span> Adding R stuff</h1>
+<div id="get-data-from-api" class="section level1">
+<h1><span class="header-section-number">3</span> get data from API</h1>
+<pre><code>## # A tibble: 380 x 15
+##    Name  Date.time Temperature Wind.Chill Heat.Index Chance.Precipit…
+##    &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;                 &lt;dbl&gt;
+##  1 Hamb… 11/30/20…         0.9       -3   NA                      100
+##  2 Hamb… 11/30/20…         1         -2.9 NA                      100
+##  3 Hamb… 11/30/20…         1.2       -2.7 NA                      100
+##  4 Hamb… 11/30/20…         1.4       -2.4 NA                      100
+##  5 Hamb… 12/01/20…         1.8       -1.9 NA                      100
+##  6 Hamb… 12/01/20…         2.2       -1.4 NA                      100
+##  7 Hamb… 12/01/20…         2.4       -0.9 NA                       38
+##  8 Hamb… 12/01/20…         2.5       -0.5 NA                       38
+##  9 Hamb… 12/01/20…         2.4       -0.2 NA                       38
+## 10 Hamb… 12/01/20…         2.4       -0.1 NA                       38
+## # … with 370 more rows, and 9 more variables: Precipitation &lt;dbl&gt;, Snow &lt;dbl&gt;,
+## #   Snow.Depth &lt;dbl&gt;, Wind.Speed &lt;dbl&gt;, Wind.Gust &lt;dbl&gt;, Visibility &lt;dbl&gt;,
+## #   Cloud.Cover &lt;dbl&gt;, Relative.Humidity &lt;dbl&gt;, Conditions &lt;chr&gt;</code></pre>
 <p>So far this is just a blog where you can write in plain text and serve your writing to a webpage. One of the main purposes of this lab journal is to record your progress learning R. The reason I am asking you to use this process is because you can both make a website, and a lab journal, and learn R all in R-studio. This makes everything really convenient and in the same place.</p>
 <p>So, let’s say you are learning how to make a histogram in R. For example, maybe you want to sample 100 numbers from a normal distribution with mean = 0, and standard deviation = 1, and then you want to plot a histogram. You can do this right here by using an r code block, like this:</p>
-<p><img src="journal_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="journal_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>When you knit this R Markdown document, you will see that the histogram is printed to the page, along with the R code. This document can be set up to hide the R code in the webpage, just delete the comment (hashtag) from the cold folding option in the yaml header up top. For purposes of letting yourself see the code, and me see the code, best to keep it the way that it is. You’ll learn that all of these things and more can be customized in each R code block.</p>
 </div>
 
