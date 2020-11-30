@@ -269,7 +269,7 @@ as_tibble(ForecastData)
 # 1.1 COLLECT PRODUCT FAMILIES ----
 
 url_home          <- "https://www.canyon.com/en-de"
-xopen(url_home) # Open links directly from RStudio to inspect them
+#xopen(url_home) # Open links directly from RStudio to inspect them
 
 # Read in the HTML for the entire webpage
 html_home         <- read_html(url_home)
