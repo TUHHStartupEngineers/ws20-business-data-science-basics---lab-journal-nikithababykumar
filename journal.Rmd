@@ -283,16 +283,8 @@ library(tictoc)
 library(vroom)
 col_types_1 <- list(
   id = col_character(),
-  type = col_character(),
-  number = col_character(),
-  country = col_character(),
   date = col_date("%Y-%m-%d"),
-  abstract = col_character(),
-  title = col_character(),
-  kind = col_character(),
-  num_claims = col_double(),
-  filename = col_character(),
-  withdrawn = col_double()
+  num_claims = col_double()
 )
 
 patent_tbl <- vroom(
@@ -310,8 +302,7 @@ patent_tbl <- vroom(
 library(vroom)
 col_types_2 <- list(
   patent_id = col_character(),
-assignee_id = col_character(),
-location_id = col_character()
+assignee_id = col_character()
 )
 
 patent_assignee_tbl <- vroom(
@@ -330,8 +321,6 @@ library(vroom)
 col_types_3 <- list(
   id = col_character(),
 type = col_double(),
-name_first = col_character(),
-name_last = col_character(),
 organization = col_character()
 )
 
@@ -348,10 +337,8 @@ assignee_tbl <- vroom(
 
 library(vroom)
 col_types_4 <- list(
-  uuid = col_character(),
 patent_id = col_character(),
 mainclass_id = col_character(),
-subclass_id = col_character(),
 sequence = col_double()
 )
 
