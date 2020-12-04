@@ -417,7 +417,7 @@ setorderv(patent_tbl_1, c("type", "organization"))
 # Preparing the Data Table
 
 setkey(patent_tbl_2, "type")
-key(patent_tbl_1)
+key(patent_tbl_2)
 
 ?setorder()
 setorderv(patent_tbl_2, c("type", "organization"))
@@ -427,11 +427,11 @@ setorderv(patent_tbl_2, c("type", "organization"))
 ```{r include=FALSE}
 # Preparing the Data Table
 
-setkey(patent_tbl_1, "type")
-key(patent_tbl_1)
+setkey(patent_tbl_3, "type")
+key(patent_tbl_3)
 
 ?setorder()
-setorderv(patent_tbl_1, c("type", "organization"))
+setorderv(patent_tbl_3, c("type", "organization"))
 ```
 
 ```{r include=FALSE}
@@ -478,7 +478,8 @@ as_tibble(patent_tbl_2_typ_January, .rows = 10)
 
 ```{r include=FALSE}
 
-patent_tbl_3_typ <- patent_tbl_3[!(type == 'na') & (mainclass_id == 'na')]
+patent_tbl_3_typ <- patent_tbl_3[!(type == 'na')]
+patent_tbl_3_typ <- patent_tbl_3_typ[!(mainclass_id == 'na')]
 setkey(patent_tbl_3_typ, "organization")
 key(patent_tbl_3_typ)
 
