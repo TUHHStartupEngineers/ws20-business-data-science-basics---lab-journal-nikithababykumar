@@ -20,19 +20,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-**IMPORTANT:** You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.
-
-This is an `.Rmd` file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a \# in front of your text, it will create a top level-header.
 
 # challenge 1 Sales Data analysis
 
 Last compiled: `r Sys.Date()`
 
-Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
+Intro to tidyverse
 
-## Sales by location Image
+## Sales by location
 
-```{r}
+
+```{r include=FALSE}
 library(tidyverse)
 library(readxl)
 ```
@@ -164,6 +162,9 @@ sales_by_location_tbl <- bike_orderlines_wrangled_tbl %>%
 sales_by_location_tbl
 ```
 
+Analyze the sales by location (state) with a bar plot. Since state and city are multiple features (variables), they should be split. Which state has the highes revenue? Replace your bike_orderlines_wrangled_tbl object with the newly wrangled object (with the columns state and city).
+
+ANSWER:
 
 ```{r plot1, fig.width=10, fig.height=7, echo=FALSE}
 library(ggplot2)
@@ -189,7 +190,7 @@ library(scales)
 
 You can add more headers by adding more hashtags. These won't be put into the table of contents
 
-## Sales by year and location Image
+## Sales by year and location
 
 
 ```{r include=FALSE}
@@ -215,7 +216,9 @@ sales_by_year_loc_tbl <- bike_orderlines_wrangled_tbl %>%
 sales_by_year_loc_tbl 
 ``` 
 
+Analyze the sales by location and year (facet_wrap). There are 12 states with bike stores.
 
+ANSWER:
 ```{r plot2, fig.width=10, fig.height=7, echo=FALSE}
 library(ggplot2)
 library(scales)
@@ -241,14 +244,16 @@ Here's an even lower level header
 # Challenge 2
 
 Last compiled: `r Sys.Date()`
-
+Data Acquisitin
 
 ## get data from API
 ```{r include=FALSE}
 ForecastData <- read.csv("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?aggregateHours=1&combinationMethod=aggregate&contentType=csv&unitGroup=metric&locationMode=single&key=FMHYECR8SJR9XCBSBZF7BK2WQ&dataElements=default&locations=Hamburg")
 
 ```
+Get some data via a weather forecast API
 
+ANSWER:
 ```{r echo=FALSE}
 as_tibble(ForecastData, .rows = 10)
 ```
@@ -257,7 +262,7 @@ as_tibble(ForecastData, .rows = 10)
 
 # Challenge 3
 
-```{r}
+```{r include=FALSE}
 # Tidyverse
 library(tidyverse)
 library(vroom)
@@ -491,4 +496,38 @@ The top 10 companies (worldwide) with the most patents, and the top 5 USPTO tech
 as_tibble(patent_tbl_3_typ, .rows = 10)
 ```
 
+```{r include=FALSE}
+library(tidyverse)
+covid_data_tbl <- read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")
+```
+
+```{r include=FALSE}
+covid_by_month_tbl <- covid_data_tbl %>%
+  select(cases, countriesAndTerritories, dateRep) %>%
+  filter(countriesAndTerritories %in% c("Germany","United_Kingdom","France","Spain","United_States_of_America")) %>%
+  mutate(date       = lubridate::dmy(dateRep)) %>%
+#mutate(date_floor  = floor_date(date, unit ="month")) %>%
+#mutate(month = month(date)) %>%
+group_by(countriesAndTerritories, date) %>%
+    summarise(total_cases = cumsum(cases)) %>%
+    ungroup() 
+
+```
+
+```{r plot5, fig.width=15, fig.height=7, echo=FALSE}
+library(ggplot2)
+library(scales)
+covid_by_month_tbl%>%
+ggplot() +
+  geom_line(aes(x = date, y = total_cases, color = countriesAndTerritories))+
+  #scale_y_continuous(labels = scales::dollar_format(scale = 1e-6, 
+   #                                                  prefix = "",
+    #                                               suffix = "M "))
+  
+  labs(title = "Covid19 confirmed cases worldwide",
+       x = "Year 2020",
+       y = "Cumulitive cases")
+#covid_by_month_tbl+scale_color_manual(values=c("#999999", "#E69F00", #"#56B4E9", ))
+
+```
 
