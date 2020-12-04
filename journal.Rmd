@@ -501,6 +501,10 @@ library(tidyverse)
 covid_data_tbl <- read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")
 ```
 
+# Challenge 3
+
+Covid data analysis
+
 ```{r include=FALSE}
 covid_by_month_tbl <- covid_data_tbl %>%
   select(cases, countriesAndTerritories, dateRep) %>%
@@ -513,6 +517,9 @@ group_by(countriesAndTerritories, date) %>%
     ungroup() 
 
 ```
+
+
+Map the time course of the cumulative Covid-19 cases
 
 ```{r plot5, fig.width=15, fig.height=7, echo=FALSE}
 library(ggplot2)

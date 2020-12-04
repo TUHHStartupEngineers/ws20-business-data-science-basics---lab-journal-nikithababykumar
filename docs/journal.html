@@ -409,30 +409,31 @@ div.tocify {
 </div>
 
 
-<p><strong>IMPORTANT:</strong> You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.</p>
-<p>This is an <code>.Rmd</code> file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a # in front of your text, it will create a top level-header.</p>
 <div id="challenge-1-sales-data-analysis" class="section level1">
 <h1><span class="header-section-number">1</span> challenge 1 Sales Data analysis</h1>
 <p>Last compiled: 2020-12-04</p>
-<p>Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left.</p>
-<div id="sales-by-location-image" class="section level2">
-<h2><span class="header-section-number">1.1</span> Sales by location Image</h2>
-<pre class="r"><code>library(tidyverse)
-library(readxl)</code></pre>
+<p>Intro to tidyverse</p>
+<div id="sales-by-location" class="section level2">
+<h2><span class="header-section-number">1.1</span> Sales by location</h2>
+<p>Analyze the sales by location (state) with a bar plot. Since state and city are multiple features (variables), they should be split. Which state has the highes revenue? Replace your bike_orderlines_wrangled_tbl object with the newly wrangled object (with the columns state and city).</p>
+<p>ANSWER:</p>
 <p><img src="journal_files/figure-html/plot1-1.png" width="960" /></p>
 <p>You can add more headers by adding more hashtags. These won’t be put into the table of contents</p>
 </div>
-<div id="sales-by-year-and-location-image" class="section level2">
-<h2><span class="header-section-number">1.2</span> Sales by year and location Image</h2>
-<p><img src="journal_files/figure-html/plot2-1.png" width="960" /></p>
+<div id="sales-by-year-and-location" class="section level2">
+<h2><span class="header-section-number">1.2</span> Sales by year and location</h2>
+<p>Analyze the sales by location and year (facet_wrap). There are 12 states with bike stores.</p>
+<p>ANSWER: <img src="journal_files/figure-html/plot2-1.png" width="960" /></p>
 <p>Here’s an even lower level header</p>
 </div>
 </div>
 <div id="challenge-2" class="section level1">
 <h1><span class="header-section-number">2</span> Challenge 2</h1>
-<p>Last compiled: 2020-12-04</p>
+<p>Last compiled: 2020-12-04 Data Acquisitin</p>
 <div id="get-data-from-api" class="section level2">
 <h2><span class="header-section-number">2.1</span> get data from API</h2>
+<p>Get some data via a weather forecast API</p>
+<p>ANSWER:</p>
 <pre><code>## # A tibble: 10 x 15
 ##    Name  Date.time Temperature Wind.Chill Heat.Index Chance.Precipit…
 ##    &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;                 &lt;dbl&gt;
@@ -456,15 +457,6 @@ library(readxl)</code></pre>
 </div>
 <div id="challenge-3" class="section level1">
 <h1><span class="header-section-number">3</span> Challenge 3</h1>
-<pre class="r"><code># Tidyverse
-library(tidyverse)
-library(vroom)
-
-# Data Table
-library(data.table)
-
-# Counter
-library(tictoc)</code></pre>
 <p>List of the 10 US companies with the most assigned/granted patents.</p>
 <pre><code>## # A tibble: 10 x 2
 ##    organization                                    N
@@ -508,6 +500,7 @@ library(tictoc)</code></pre>
 ##  9 RE44963   org_rVU8cQ…     2 Diamond Tec… 2014-06-24        352 702         
 ## 10 RE44963   org_rVU8cQ…     2 Diamond Tec… 2014-06-24        352 356         
 ## # … with 1 more variable: sequence &lt;dbl&gt;</code></pre>
+<p><img src="journal_files/figure-html/plot5-1.png" width="1440" /></p>
 </div>
 
 
