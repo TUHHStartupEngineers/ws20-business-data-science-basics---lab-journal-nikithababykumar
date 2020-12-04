@@ -98,13 +98,6 @@ bike_orderlines_joined_tbl %>% glimpse()
 ## $ lng            <dbl> 10.015340, 10.015340, 8.826754, 8.8…
 ```
 
-```{r include=FALSE}
-bike_orderlines_joined_tbl %>% 
-  select(category) %>%
-  filter(str_detect(category, "^Mountain")) %>% 
-  unique()
-```
-
 
 ```{r include=FALSE}
 # 5.0 Wrangling Data ----
@@ -258,7 +251,7 @@ ForecastData <- read.csv("https://weather.visualcrossing.com/VisualCrossingWebSe
 ```
 
 ```{r echo=FALSE}
-as_tibble(ForecastData)
+as_tibble(ForecastData, .rows = 10)
 ```
 
 ## Scapping
