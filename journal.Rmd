@@ -496,14 +496,24 @@ The top 10 companies (worldwide) with the most patents, and the top 5 USPTO tech
 as_tibble(patent_tbl_3_typ, .rows = 10)
 ```
 
-```{r include=FALSE}
-library(tidyverse)
-covid_data_tbl <- read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")
-```
 
 # Challenge 4
 
 Covid data analysis
+
+```{r include=FALSE}
+library(tidyverse)
+library(vroom)
+
+# Data Table
+library(data.table)
+
+# Counter
+library(tictoc)
+covid_data_tbl <- read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")
+```
+
+
 
 ```{r include=FALSE}
 covid_by_month_tbl <- covid_data_tbl %>%
@@ -535,6 +545,79 @@ ggplot() +
        x = "Year 2020",
        y = "Cumulitive cases")
 #covid_by_month_tbl+scale_color_manual(values=c("#999999", "#E69F00", #"#56B4E9", ))
+
+```
+
+```{r include=FALSE}
+
+  
+  world <- map_data("world")
+
+  covid_by_mortality_tbl <- covid_data_tbl %>%
+  mutate(across(countriesAndTerritories, str_replace_all, "_", " ")) %>%
+  mutate(countriesAndTerritories = case_when(
+
+    countriesAndTerritories == "United Kingdom" ~ "UK",
+    countriesAndTerritories == "United States of America" ~ "USA",
+    countriesAndTerritories == "Czechia" ~ "Czech Republic",
+    TRUE ~ countriesAndTerritories
+
+  ))%>%
+  group_by(countriesAndTerritories, popData2019, deaths) %>%
+    summarise(total_pop = max(popData2019))%>%
+    summarise(total_death = sum(deaths))%>%
+  summarise(mortality =  (total_death)/(popData2019))
+
+```
+
+```{r include=FALSE}
+
+class(covid_by_mortality_tbl)
+
+setDT(covid_by_mortality_tbl)
+
+class(covid_by_mortality_tbl)
+
+covid_by_mortality_tbl %>% glimpse()
+
+setDT(world)
+
+world %>% glimpse()
+```
+
+```{r include=FALSE}
+tic()
+covid_by_map_tbl <- merge(x = world, y = covid_by_mortality_tbl, 
+                      by.x = "region", by.y = "countriesAndTerritories",
+                       all.x = TRUE, 
+                       all.y = FALSE)
+                      
+    
+toc()
+covid_by_map_tbl%>% glimpse()
+  
+  
+
+```
+
+```{r include=FALSE}
+setkey(covid_by_map_tbl, "region")
+key(covid_by_map_tbl)
+
+?setorder(region, -mortality, long, lat)
+setorderv(covid_by_map_tbl, c("mortality", "region", "long", "lat"), order = -1)
+```
+
+
+```{r plot6, fig.width=15, fig.height=7, echo=FALSE}
+library(ggplot2)
+library(scales)
+covid_by_map_tbl%>%
+ggplot() +
+  geom_map(aes(x = long, y = lat, map_id = region, fill = mortality),map = world) +
+ scale_fill_continuous(labels = scales::percent)+
+  labs(title = "Confirmed Covid19 deaths relative to size of the population ",
+       subtitle = "More than 1.2 Million confirmed covid19 deaths worldwide")
 
 ```
 
