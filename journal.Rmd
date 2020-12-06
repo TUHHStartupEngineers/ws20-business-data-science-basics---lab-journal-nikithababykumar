@@ -299,7 +299,7 @@ rosebike_category_tbl
 rosebike_road_category_url <- str_c(url_home,rosebike_category_tbl$Category_Path[2])
 
 html_road_bike_category <- read_html(rosebike_road_category_url)
-rosebike_model_names <- html_road_bike_category %>%
+rosebike_model_names_tbl <- html_road_bike_category %>%
   
   html_nodes(css = '.catalog-category-bikes__title-text') %>%
   
@@ -309,8 +309,8 @@ rosebike_model_names <- html_road_bike_category %>%
   
   mutate(Category_Name = toupper(rosebike_category_tbl$Category_Name[2]))
 
-rosebike_model_names
-rosebike_model_prices <- html_road_bike_category %>%
+rosebike_model_names_tbl
+rosebike_model_prices_tbl <- html_road_bike_category %>%
  
   html_nodes(css = '.catalog-category-bikes__price-title') %>%
   
@@ -327,17 +327,17 @@ rosebike_model_prices <- html_road_bike_category %>%
                                    prefix = "", 
                                    suffix = " €"))
 
-rosebike_model_prices
+rosebike_model_prices_tbl
 
-rosebike_cat_mdl_price_joined <- left_join(rosebike_model_names,rosebike_model_prices)
+rosebike_catog_model_price_joined <- left_join(rosebike_model_names_tbl,rosebike_model_prices_tbl)
 
-rosebike_cat_mdl_price_joined
+rosebike_catog_model_price_joined
 ```
 The database should contain the model names and prices for at ROAD category. 
 
 ANSWER
 ```{r echo=FALSE}
-as_tibble(rosebike_cat_mdl_price_joined, .rows = 9)
+as_tibble(rosebike_catog_model_price_joined, .rows = 9)
 ```
 # Challenge 3
 
