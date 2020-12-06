@@ -264,7 +264,6 @@ as_tibble(ForecastData, .rows = 10)
 
 library(fs)           
 library(tidyverse)
-library(dpylr)
 library(magrittr)
 library(RSQLite)        # Database Connection
 library(httr)           # Make HTTP Requests
