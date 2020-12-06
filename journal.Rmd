@@ -258,7 +258,6 @@ ANSWER:
 as_tibble(ForecastData, .rows = 10)
 ```
 
-## Scapping
 
 # Challenge 3
 
