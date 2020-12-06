@@ -259,7 +259,7 @@ as_tibble(ForecastData, .rows = 10)
 ```
 ## Web scrapping
 
-```{r}
+```{r include=FALSE}
 # STEP 1: Load Libraries ---
 
 library(fs)           
