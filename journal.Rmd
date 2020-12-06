@@ -332,7 +332,9 @@ rosebike_cat_mdl_price_joined <- left_join(rosebike_model_names,rosebike_model_p
 
 rosebike_cat_mdl_price_joined
 ```
+The database should contain the model names and prices for at ROAD category. 
 
+ANSWER
 ```{r echo=FALSE}
 as_tibble(rosebike_cat_mdl_price_joined, .rows = 9)
 ```
