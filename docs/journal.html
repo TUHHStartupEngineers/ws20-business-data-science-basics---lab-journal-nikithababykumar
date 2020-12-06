@@ -453,6 +453,18 @@ div.tocify {
 </div>
 <div id="web-scrapping" class="section level2">
 <h2><span class="header-section-number">2.2</span> Web scrapping</h2>
+<pre class="r"><code># STEP 1: Load Libraries ---
+
+library(fs)           
+library(tidyverse)
+library(magrittr)
+library(RSQLite)        # Database Connection
+library(httr)           # Make HTTP Requests
+library(glue)           # String Interpolation
+library(jsonlite)       # JSON Conversions
+library(stringr)        # Wrappers for Common String Operators
+library(rvest)          # Wrappers to Download, Manipulate HTML/XML
+library(purrr)          # Functional Programming Toolkit for R</code></pre>
 <pre class="r"><code>url_home &lt;- &quot;https://www.rosebikes.com&quot;
 # To open links directly from RStudio to inspect them with &#39;selectorgadget&#39; pass value to xopen() i.e. xopen(url_home)
 # Read in the HTML for the entire web page
@@ -464,40 +476,60 @@ rosebike_category_tbl &lt;- html_home %&gt;%
   #html_nodes(xpath = &#39;//*[contains(concat( &quot; &quot;, @class, &quot; &quot; ), concat( &quot; &quot;, &quot;main-navigation-category-with-tiles__link&quot;, &quot; &quot; ))]&#39;) %&gt;%
   # ...and extract the information from href attribute
   html_attr(&#39;href&#39;) %&gt;%
-  # Remove the product family sale because these are repeat listings
-  #~str_detect(&quot;sale&quot;)
+ 
   grep(paste(&quot;/bikes/sale&quot;, collapse = &quot;|&quot;), ., invert = TRUE, value = TRUE) %&gt;%
   
-  #discard(., .p =~ str_detect(.,&quot;/bikes/sale&quot;)) %&gt;%
-  # Convert vector to tibble
+  
   enframe(name = &quot;position&quot;, value = &quot;Category_Path&quot;) %&gt;%
-  # Add a new column with family name
+ 
   mutate(Category_Name = stringr::str_replace(Category_Path,&quot;/bikes/&quot;,&quot;&quot;))
-rosebike_category_tbl
-# Code below scrapes web data from ROSE&#39;s Road Bikes
-# Create new url by appending &#39;/&#39;bikes/road&#39; to original url -- url_home
-rosebike_road_category_url &lt;- str_c(url_home,rosebike_category_tbl$Category_Path[2])
-# Read in the HTML for the category web page
+rosebike_category_tbl</code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   position Category_Path     Category_Name
+##      &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;        
+## 1        1 /bikes/mtb        mtb          
+## 2        2 /bikes/road       road         
+## 3        3 /bikes/gravel     gravel       
+## 4        4 /bikes/cyclocross cyclocross   
+## 5        5 /bikes/fitness    fitness      
+## 6        6 /bikes/hybrid     hybrid       
+## 7        7 /bikes/touring    touring      
+## 8        8 /bikes/urban      urban        
+## 9        9 /bikes/kids       kids</code></pre>
+<pre class="r"><code>rosebike_road_category_url &lt;- str_c(url_home,rosebike_category_tbl$Category_Path[2])
+
 html_road_bike_category &lt;- read_html(rosebike_road_category_url)
 rosebike_model_names &lt;- html_road_bike_category %&gt;%
-  # Get the nodes for the model names ...
+  
   html_nodes(css = &#39;.catalog-category-bikes__title-text&#39;) %&gt;%
-  # ...and extract the text information while trimming leading and trailing spaces
+  
   html_text(trim = TRUE) %&gt;%
-  # Convert vector to tibble
+ 
   enframe(name = &quot;position&quot;, value = &quot;Model_Name&quot;) %&gt;%
-  # Add a new column to add category name
+  
   mutate(Category_Name = toupper(rosebike_category_tbl$Category_Name[2]))
-# Print ROSE&#39;s Road Bikes model names
-rosebike_model_names
-rosebike_model_prices &lt;- html_road_bike_category %&gt;%
-  # Get the nodes for the model prices ...
+
+rosebike_model_names</code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   position Model_Name       Category_Name
+##      &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;        
+## 1        1 PRO SL DISC      ROAD         
+## 2        2 PRO SL           ROAD         
+## 3        3 REVEAL FOUR DISC ROAD         
+## 4        4 REVEAL FOUR      ROAD         
+## 5        5 REVEAL SIX DISC  ROAD         
+## 6        6 X-LITE FOUR DISC ROAD         
+## 7        7 X-LITE FOUR      ROAD         
+## 8        8 X-LITE SIX DISC  ROAD         
+## 9        9 X-LITE SIX       ROAD</code></pre>
+<pre class="r"><code>rosebike_model_prices &lt;- html_road_bike_category %&gt;%
+ 
   html_nodes(css = &#39;.catalog-category-bikes__price-title&#39;) %&gt;%
-  # ...and extract the text information while trimming leading and trailing spaces
+  
   html_text(trim = TRUE) %&gt;%
-  # Use regex to extract the prices from the text
+ 
   str_extract(pattern = &quot;\\d{1,3}\\,?\\d{3}\\.?\\d{1,2}&quot;) %&gt;%
-  # Convert the result into number
+  
   parse_number() %&gt;%
   # Convert vector to tibble
   enframe(name = &quot;position&quot;, value = &quot;Price&quot;) %&gt;%
@@ -506,12 +538,47 @@ rosebike_model_prices &lt;- html_road_bike_category %&gt;%
                                    decimal.mark = &quot;,&quot;, 
                                    prefix = &quot;&quot;, 
                                    suffix = &quot; €&quot;))
-# Print ROSE&#39;s Road Bikes model prices
-rosebike_model_prices
-# Join tables together for one final table
-rosebike_cat_mdl_price_joined &lt;- left_join(rosebike_model_names,rosebike_model_prices)
-# Output the FINAL tibble of ROSE&#39;s bikes with model, category, and price as columns
+
+rosebike_model_prices</code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   position Price Price_Text
+##      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     
+## 1        1  1599 1.599 €   
+## 2        2  1199 1.199 €   
+## 3        3  2499 2.499 €   
+## 4        4  2099 2.099 €   
+## 5        5  3499 3.499 €   
+## 6        6  2699 2.699 €   
+## 7        7  2199 2.199 €   
+## 8        8  3899 3.899 €   
+## 9        9  3499 3.499 €</code></pre>
+<pre class="r"><code>rosebike_cat_mdl_price_joined &lt;- left_join(rosebike_model_names,rosebike_model_prices)
+
 rosebike_cat_mdl_price_joined</code></pre>
+<pre><code>## # A tibble: 9 x 5
+##   position Model_Name       Category_Name Price Price_Text
+##      &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;     
+## 1        1 PRO SL DISC      ROAD           1599 1.599 €   
+## 2        2 PRO SL           ROAD           1199 1.199 €   
+## 3        3 REVEAL FOUR DISC ROAD           2499 2.499 €   
+## 4        4 REVEAL FOUR      ROAD           2099 2.099 €   
+## 5        5 REVEAL SIX DISC  ROAD           3499 3.499 €   
+## 6        6 X-LITE FOUR DISC ROAD           2699 2.699 €   
+## 7        7 X-LITE FOUR      ROAD           2199 2.199 €   
+## 8        8 X-LITE SIX DISC  ROAD           3899 3.899 €   
+## 9        9 X-LITE SIX       ROAD           3499 3.499 €</code></pre>
+<pre><code>## # A tibble: 9 x 5
+##   position Model_Name       Category_Name Price Price_Text
+##      &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;     
+## 1        1 PRO SL DISC      ROAD           1599 1.599 €   
+## 2        2 PRO SL           ROAD           1199 1.199 €   
+## 3        3 REVEAL FOUR DISC ROAD           2499 2.499 €   
+## 4        4 REVEAL FOUR      ROAD           2099 2.099 €   
+## 5        5 REVEAL SIX DISC  ROAD           3499 3.499 €   
+## 6        6 X-LITE FOUR DISC ROAD           2699 2.699 €   
+## 7        7 X-LITE FOUR      ROAD           2199 2.199 €   
+## 8        8 X-LITE SIX DISC  ROAD           3899 3.899 €   
+## 9        9 X-LITE SIX       ROAD           3499 3.499 €</code></pre>
 </div>
 </div>
 <div id="challenge-3" class="section level1">

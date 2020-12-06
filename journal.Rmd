@@ -274,7 +274,7 @@ library(rvest)          # Wrappers to Download, Manipulate HTML/XML
 library(purrr)          # Functional Programming Toolkit for R
 ```
 
-```{r}
+```{r include=FALSE}
 url_home <- "https://www.rosebikes.com"
 # To open links directly from RStudio to inspect them with 'selectorgadget' pass value to xopen() i.e. xopen(url_home)
 # Read in the HTML for the entire web page
