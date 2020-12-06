@@ -613,8 +613,13 @@ Map the time course of the cumulative Covid-19 cases
 library(ggplot2)
 library(scales)
 covid_by_month_tbl%>%
-ggplot() +
-  geom_line(aes(x = date, y = total_cases, color = countriesAndTerritories))+
+ggplot(aes(x = date, y = total_cases, color = countriesAndTerritories)) +
+  geom_line(size = 0.5) +
+  expand_limits(y = 0) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_continuous(labels = scales::dollar_format(scale = 1/1e6, 
+                                                    prefix = "", 
+                                                    suffix = " M")) +
   #scale_y_continuous(labels = scales::dollar_format(scale = 1e-6, 
    #                                                  prefix = "",
     #                                               suffix = "M "))
