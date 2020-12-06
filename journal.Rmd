@@ -260,6 +260,22 @@ as_tibble(ForecastData, .rows = 10)
 ## Web scrapping
 
 ```{r}
+# STEP 1: Load Libraries ---
+
+library(fs)           
+library(tidyverse)
+library(dpylr)
+library(magrittr)
+library(RSQLite)        # Database Connection
+library(httr)           # Make HTTP Requests
+library(glue)           # String Interpolation
+library(jsonlite)       # JSON Conversions
+library(stringr)        # Wrappers for Common String Operators
+library(rvest)          # Wrappers to Download, Manipulate HTML/XML
+library(purrr)          # Functional Programming Toolkit for R
+```
+
+```{r}
 url_home <- "https://www.rosebikes.com"
 # To open links directly from RStudio to inspect them with 'selectorgadget' pass value to xopen() i.e. xopen(url_home)
 # Read in the HTML for the entire web page
