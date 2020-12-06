@@ -271,40 +271,37 @@ rosebike_category_tbl <- html_home %>%
   #html_nodes(xpath = '//*[contains(concat( " ", @class, " " ), concat( " ", "main-navigation-category-with-tiles__link", " " ))]') %>%
   # ...and extract the information from href attribute
   html_attr('href') %>%
-  # Remove the product family sale because these are repeat listings
-  #~str_detect("sale")
+ 
   grep(paste("/bikes/sale", collapse = "|"), ., invert = TRUE, value = TRUE) %>%
   
-  #discard(., .p =~ str_detect(.,"/bikes/sale")) %>%
-  # Convert vector to tibble
+  
   enframe(name = "position", value = "Category_Path") %>%
-  # Add a new column with family name
+ 
   mutate(Category_Name = stringr::str_replace(Category_Path,"/bikes/",""))
 rosebike_category_tbl
-# Code below scrapes web data from ROSE's Road Bikes
-# Create new url by appending '/'bikes/road' to original url -- url_home
+
 rosebike_road_category_url <- str_c(url_home,rosebike_category_tbl$Category_Path[2])
-# Read in the HTML for the category web page
+
 html_road_bike_category <- read_html(rosebike_road_category_url)
 rosebike_model_names <- html_road_bike_category %>%
-  # Get the nodes for the model names ...
+  
   html_nodes(css = '.catalog-category-bikes__title-text') %>%
-  # ...and extract the text information while trimming leading and trailing spaces
+  
   html_text(trim = TRUE) %>%
-  # Convert vector to tibble
+ 
   enframe(name = "position", value = "Model_Name") %>%
-  # Add a new column to add category name
+  
   mutate(Category_Name = toupper(rosebike_category_tbl$Category_Name[2]))
-# Print ROSE's Road Bikes model names
+
 rosebike_model_names
 rosebike_model_prices <- html_road_bike_category %>%
-  # Get the nodes for the model prices ...
+ 
   html_nodes(css = '.catalog-category-bikes__price-title') %>%
-  # ...and extract the text information while trimming leading and trailing spaces
+  
   html_text(trim = TRUE) %>%
-  # Use regex to extract the prices from the text
+ 
   str_extract(pattern = "\\d{1,3}\\,?\\d{3}\\.?\\d{1,2}") %>%
-  # Convert the result into number
+  
   parse_number() %>%
   # Convert vector to tibble
   enframe(name = "position", value = "Price") %>%
@@ -313,15 +310,17 @@ rosebike_model_prices <- html_road_bike_category %>%
                                    decimal.mark = ",", 
                                    prefix = "", 
                                    suffix = " €"))
-# Print ROSE's Road Bikes model prices
+
 rosebike_model_prices
-# Join tables together for one final table
+
 rosebike_cat_mdl_price_joined <- left_join(rosebike_model_names,rosebike_model_prices)
-# Output the FINAL tibble of ROSE's bikes with model, category, and price as columns
+
 rosebike_cat_mdl_price_joined
 ```
 
-
+```{r echo=FALSE}
+as_tibble(rosebike_cat_mdl_price_joined, .rows = 9)
+```
 # Challenge 3
 
 ```{r include=FALSE}
